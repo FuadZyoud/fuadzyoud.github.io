@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025</title>
+    <style>
+        body {
+            background: black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1{
+            background-color: transparent;
+            color: white;
+            margin: 0;
+            text-align: center;
+            position: absolute;
+            display: none; /* Initially hidden */
+            font-size: 2rem;
+            opacity: 0; /* Start fully transparent */
+            animation: fadeIn 3s ease-in forwards; /* Gradual fade-in */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .visible {
+        display: block;
+        opacity: 1;
+        transition: opacity 2s;
+}
+
+        canvas {
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <h1 dir="ltr" id="message">يَا رَبُّ أَنَّهَا نِهَايَةُ شَهْرٍ <br>
+        <br>
+        وَغْدٍ بِدَايَــةِ لِشَهْــرِ جَدِيدٍ<br>
+        <br>
+        فَيُسْرَ لَنَا فِيهِ اَلْخَيْـرُ، وَاكْفِنَـا شَــرِه<br>
+        <br>
+        وَارْزُقْنَــا اَلرِّضَــا بِكُـلِّ أَمْـرٍ مُقَـدَّرٍ لَنَـا
+        <br>
+        <br>
+        <br>
+        <a>اَللَّهُمَّ كُنَّ عَوْنًا لِإِخْوَانِنَا فِي غَزَّةَ</a>
+        <br>
+        <br>
+        <br>مع تحيات فؤاد الزيود</h1>
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        window.addEventListener("resize", resizeCanvas, false);
+        window.addEventListener("DOMContentLoaded", onLoad, false);
+
+        window.requestAnimationFrame = 
+            window.requestAnimationFrame       || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function (callback) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+
+        var canvas, ctx, w, h, particles = [], probability = 0.04,
+            xPoint, yPoint;
+
+        function onLoad() {
+            canvas = document.getElementById("canvas");
+            ctx = canvas.getContext("2d");
+            resizeCanvas();
+
+            window.requestAnimationFrame(updateWorld);
+
+            // Show the h1 element after 1 second
+            setTimeout(function() { 
+                document.getElementById("message").classList.add("visible");
+                }, 1500);
+            }
+
+        function resizeCanvas() {
+            if (!!canvas) {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+        }
+
+        function updateWorld() {
+            update();
+            paint();
+            window.requestAnimationFrame(updateWorld);
+        }
+
+        function update() {
+            if (particles.length < 500 && Math.random() < probability) {
+                createFirework();
+            }
+            var alive = [];
+            for (var i = 0; i < particles.length; i++) {
+                if (particles[i].move()) {
+                    alive.push(particles[i]);
+                }
+            }
+            particles = alive;
+        }
+
+        function paint() {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            ctx.fillRect(0, 0, w, h);
+            ctx.globalCompositeOperation = 'lighter';
+            for (var i = 0; i < particles.length; i++) {
+                particles[i].draw(ctx);
+            }
+        }
+        function updateLinkColor() {
+    // Generate a random color
+    var color = "rgb(" + 
+        (~~(Math.random() * 200 + 55)) + "," + 
+        (~~(Math.random() * 200 + 55)) + "," + 
+        (~~(Math.random() * 200 + 55)) + ")";
+    
+    // Apply the color to the <a> element
+    var link = document.querySelector("#message a"); // Assuming the <a> is inside #message
+    if (link) {
+        link.style.color = color;
+    }
+}
+
+// Call updateLinkColor periodically or within the animation frame
+setInterval(updateLinkColor, 500); // Change the color every 500ms
+
+        function createFirework() {
+            xPoint = Math.random() * (w - 200) + 100;
+            yPoint = Math.random() * (h - 200) + 100;
+            var nFire = Math.random() * 50 + 100;
+            var c = "rgb(" + (~~(Math.random() * 200 + 55)) + "," + (~~(Math.random() * 200 + 55)) + "," + (~~(Math.random() * 200 + 55)) + ")";
+            for (var i = 0; i < nFire; i++) {
+                var particle = new Particle();
+                particle.color = c;
+                var vy = Math.sqrt(25 - particle.vx * particle.vx);
+                if (Math.abs(particle.vy) > vy) {
+                    particle.vy = particle.vy > 0 ? vy : -vy;
+                }
+                particles.push(particle);
+            }
+        }
+
+        function Particle() {
+            this.w = this.h = Math.random() * 4 + 1;
+
+            this.x = xPoint - this.w / 2;
+            this.y = yPoint - this.h / 2;
+
+            this.vx = (Math.random() - 0.5) * 10;
+            this.vy = (Math.random() - 0.5) * 10;
+
+            this.alpha = Math.random() * .5 + .5;
+
+            this.color;
+        }
+
+        Particle.prototype = {
+            gravity: 0.05,
+            move: function () {
+                this.x += this.vx;
+                this.vy += this.gravity;
+                this.y += this.vy;
+                this.alpha -= 0.01;
+                if (this.x <= -this.w || this.x >= screen.width ||
+                    this.y >= screen.height ||
+                    this.alpha <= 0) {
+                    return false;
+                }
+                return true;
+            },
+            draw: function (c) {
+                c.save();
+                c.beginPath();
+
+                c.translate(this.x + this.w / 2, this.y + this.h / 2);
+                c.arc(0, 0, this.w, 0, Math.PI * 2);
+                c.fillStyle = this.color;
+                c.globalAlpha = this.alpha;
+
+                c.closePath();
+                c.fill();
+                c.restore();
+            }
+        }
+    </script>
+</body>
+</html>
