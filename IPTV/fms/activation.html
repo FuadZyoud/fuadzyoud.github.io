@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Activation Example</title>
+</head>
+<body>
+    <h1>Activation Test</h1>
+    <input type="text" id="code" placeholder="Enter activation code">
+    <button onclick="activate()">Activate</button>
+
+    <script src="activation.js"></script>
+    <script>
+        function activate() {
+            const code = document.getElementById("code").value.trim();
+            if (code.length < 12) {
+                alert("Please enter a valid activation code.");
+                return;
+            }
+            activateCode(code);
+        }
+    </script>
+</body>
+</html>
