@@ -1,4 +1,3 @@
-<script>
 async function activateCode(code) {
     try {
         let response = await fetch(`https://fmods.ct.ws/activation/activate.php?code=${code}`);
@@ -6,7 +5,7 @@ async function activateCode(code) {
         console.log(data);
 
         if (data.success) {
-            alert(data.message + " Licensed to: " + data.licensed_to);
+            alert(data.message + "\nLicensed to: " + data.licensed_to);
         } else {
             alert("Activation failed: " + data.message);
         }
@@ -16,4 +15,5 @@ async function activateCode(code) {
     }
 }
 
-</script>
+// Example call:
+activateCode("FMS-AAAA-1111");
