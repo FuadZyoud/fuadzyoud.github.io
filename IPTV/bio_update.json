@@ -1,0 +1,58 @@
+{
+  "app_name": "Farm Suite – Livestock & Dairy Herd Management System",
+  "brand": "♡F.M.S♡ Mods",
+  "platform": "windows",
+  "channel": "stable",
+
+  "current": {
+    "version": "1.5.1",
+    "build": "125.2025",
+    "release_date": "2025-12-16",
+    "min_supported_version": "1.4.0"
+  },
+
+  "update": {
+    "available": true,
+    "version": "1.5.1",
+    "build": "125.2025",
+    "release_date": "2025-12-16",
+    "type": "minor",
+    "mandatory": false
+  },
+
+  "download": {
+    "url": "https://fmods.ct.ws/BIO/Farm_Suite_1.5.2_Build_126.2025_Setup.exe",
+    "size_mb": 185.6,
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "REPLACE_WITH_REAL_SHA256_HASH"
+    }
+  },
+
+  "changelog": [
+    "🔐 Per-user permission matrix (view / add / edit / delete)",
+    "👤 User-specific permission overrides",
+    "🐄 Improved animal lifecycle & family tree logic",
+    "🧬 Performance improvements for large farms",
+    "🎨 UI refinements and dark theme fixes",
+    "🐞 Critical bug fixes and stability improvements"
+  ],
+
+  "assets": {
+    "icon": "https://fmods.ct.ws/BIO/assets/fms.ico",
+    "logo": "https://fmods.ct.ws/BIO/assets/logo.png"
+  },
+
+  "links": {
+    "website": "https://fmods.ct.ws",
+    "documentation": "https://fmods.ct.ws/BIO/docs",
+    "support_email": "fuad.zyoud@gmail.com"
+  },
+
+  "security": {
+    "signature_required": false,
+    "https_required": true
+  },
+
+  "notes": "This update is optional but recommended for all farms using role-based permissions."
+}
